@@ -50,6 +50,19 @@ class SnakeGame:
         self.score = 0
         self.food = None
         self._place_food()
+    def reset(self):
+        self.direction = Direction.RIGHT
+
+        self.head = Point(self.width / 2, self.height / 2)
+        self.snake = [self.head,
+                      Point(self.head.coordx - self.block_size,
+                            self.head.coordy),
+                      Point(self.head.coordx - (2 * self.block_size),
+                            self.head.coordy)]
+
+        self.score = 0
+        self._place_food()
+
 
     def _place_food(self):
         """Place the food randomly in a non-colliding coordinate"""

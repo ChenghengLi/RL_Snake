@@ -10,7 +10,7 @@ def play_snake():
 
     game = SnakeGame()
 
-    speed = 20
+    speed =20
     clock = pygame.time.Clock()
     stop = False
     # game loop
