@@ -1,15 +1,16 @@
 from game.snake import Direction, Point, SnakeGame
 import random
 from tqdm import tqdm
-from rewards import naive_reward
+from rewards import naive_reward, manhattan_distance_reward
 
 class QLearning():
-    def __init__(self, game: SnakeGame, alpha=0.1, gamma=0.6, epsilon=0.1):
+    def __init__(self, game: SnakeGame, alpha=0.1, gamma=0.6, epsilon=0.1, reward_function="naive_reward"):
         self.game = game
         self.q_table = dict()
         self.alpha = alpha
         self.gamma = gamma
         self.epsilon = epsilon
+        self.reward_function = reward_function
 
 
     def get_actions(self):
@@ -43,12 +44,20 @@ class QLearning():
             while not game_over:
                 counter += 1
                 action = self.choose_action(state)
+                prev_state = self.game.head
                 eaten, score, game_over = self.game.play_step(action)
                 if score > prev_score:
                     prev_score = score
                     counter = 0
                 next_state = self.game.head
-                reward = naive_reward(action, eaten, game_over)
+                food = self.game.food
+
+                # Change functionality based on reward function
+                if self.reward_function == "naive_reward":
+                    reward = naive_reward(action, eaten, game_over)
+                elif self.reward_function == "manhattan_reward":
+                    reward = manhattan_distance_reward(action, eaten, game_over, prev_state, next_state, food)
+
                 if counter > max_steps:
                     reward = -2
                     game_over = True
