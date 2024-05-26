@@ -1,7 +1,7 @@
 import random
 from game.snake import Direction, Point, SnakeGame
 from tqdm import tqdm
-, manhattan_distance_reward
+
 
 class QLearning:
     def __init__(self, game: SnakeGame, alpha=0.1, gamma=0.9, epsilon=0.1):
