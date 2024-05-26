@@ -1,7 +1,7 @@
 import random
 from game.snake import Direction, Point, SnakeGame
 from tqdm import tqdm
-
+, manhattan_distance_reward
 
 class QLearning:
     def __init__(self, game: SnakeGame, alpha=0.1, gamma=0.9, epsilon=0.1):
@@ -10,6 +10,7 @@ class QLearning:
         self.alpha = alpha
         self.gamma = gamma
         self.epsilon = epsilon
+    
 
     def get_actions(self):
         return ["left", "right", "forward"]
@@ -39,6 +40,7 @@ class QLearning:
             step = 0
             while not game_over and step < max_steps:
                 action = self.choose_action(state)
+                prev_state = self.game.head
                 eaten, score, game_over = self.game.play_step(action)
                 next_state = self.game.get_state()
                 reward = reward_function(state, next_state, action, self.game.get_food(), eaten, game_over)
