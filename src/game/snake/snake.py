@@ -29,7 +29,7 @@ BLACK = (0, 0, 0)
 class SnakeGame:
     """Simple 2D snake game"""
 
-    def __init__(self, width=640, height=480):
+    def __init__(self, width=200, height=200):
         """Initialize the graphic blocks and a snake of size 3 heading right"""
         self.block_size = 20
         self.width = width
@@ -63,7 +63,12 @@ class SnakeGame:
         self.score = 0
         self._place_food()
 
-
+    def get_width(self):
+        return self.width // self.block_size
+    
+    def get_height(self):
+        return self.height // self.block_size
+    
     def _place_food(self):
         """Place the food randomly in a non-colliding coordinate"""
         while True:
@@ -131,6 +136,88 @@ class SnakeGame:
             return True
 
         return False
+    
+    def _get_point(self, direction: Direction):
+
+        coordx = self.head.coordx
+        coordy = self.head.coordy
+        if direction == Direction.RIGHT:
+            coordx += self.block_size
+        elif direction == Direction.LEFT:
+            coordx -= self.block_size
+        elif direction == Direction.DOWN:
+            coordy += self.block_size
+        elif direction == Direction.UP:
+            coordy -= self.block_size
+
+        return Point(coordx, coordy)
+
+    
+    def get_state_1(self):
+
+        head = self.head
+
+        # Get the coordinates in the grid
+        x = head[0] // self.block_size
+        y = head[1] // self.block_size
+
+        return (x, y, str(self.direction))
+    
+    def get_state(self):
+        """
+        Returns:
+            d_l: if there's danger at the left.
+            d_r: if there's danger at the right.
+            d_f: if there's danger at the front.
+            f_f: if the food is forward.
+            f_r: if the food is at the right.
+            f_l: if the food is at the left.
+        """
+        d_l, d_r, d_f, f_f, f_r, f_l = 0, 0, 0, 0, 0, 0
+
+        # Get the coordinates in the grid
+        right = self._get_point(Direction.RIGHT)
+        left = self._get_point(Direction.LEFT)
+        up = self._get_point(Direction.UP)
+        down = self._get_point(Direction.DOWN)
+
+        if self.direction == Direction.RIGHT:
+            d_f = self.is_collision(right)
+            d_r = self.is_collision(down)
+            d_l = self.is_collision(up)
+            f_f = self.food[0] > self.head[0]
+            f_r = self.food[1] > self.head[1]
+            f_l = self.food[1] < self.head[1]
+
+        elif self.direction == Direction.LEFT:
+            d_f = self.is_collision(left)
+            d_r = self.is_collision(up)
+            d_l = self.is_collision(down)
+            f_f = self.food[0] < self.head[0]
+            f_r = self.food[1] < self.head[1]
+            f_l = self.food[1] > self.head[1]
+        elif self.direction == Direction.UP:
+            d_f = self.is_collision(up)
+            d_r = self.is_collision(right)
+            d_l = self.is_collision(left)
+            f_f = self.food[1] < self.head[1]
+            f_r = self.food[0] > self.head[0]
+            f_l = self.food[0] < self.head[0]
+        else:
+            d_f = self.is_collision(down)
+            d_r = self.is_collision(left)
+            d_l = self.is_collision(right)
+            f_f = self.food[1] > self.head[1]
+            f_r = self.food[0] < self.head[0]
+            f_l = self.food[0] > self.head[0]
+
+        return (d_l, d_r, d_f, f_f, f_r, f_l)
+    
+    def get_food(self):
+        food = self.food
+        x = food[0] // self.block_size
+        y = food[1] // self.block_size
+        return (x, y)
 
     def pygame_draw(self):
         """Uses pygame to draw the game in the screen"""

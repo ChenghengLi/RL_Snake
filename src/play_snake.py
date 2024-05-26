@@ -8,9 +8,9 @@ def play_snake():
     """Initialize and run the game loop"""
     pygame.init()
 
-    game = SnakeGame()
+    game = SnakeGame(400,400)
 
-    speed =20
+    speed =10
     clock = pygame.time.Clock()
     stop = False
     # game loop
@@ -26,7 +26,7 @@ def play_snake():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     game.quit()
-                    stop = True
+                    #stop = True
 
                 if event.key in [
                         pygame.K_LEFT,
@@ -51,7 +51,8 @@ def play_snake():
         clock.tick(speed)
 
         if game_over:
-            break
+            clock.tick(0)
+            game.reset()
 
     print('Final Score', score)
 
