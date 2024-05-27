@@ -43,7 +43,7 @@ class QLearning:
                 prev_state = self.game.head
                 eaten, score, game_over = self.game.play_step(action)
                 next_state = self.game.get_state()
-                reward = reward_function(state, next_state, action, self.game.get_food(), eaten, game_over)
+                reward = reward_function(state, next_state, action, self.game.get_food(), eaten, game_over, score)
                 if step == max_steps - 1:
                     reward = -50
                 self.learn(state, action, reward, next_state)
