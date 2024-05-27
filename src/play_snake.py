@@ -8,7 +8,7 @@ def play_snake():
     """Initialize and run the game loop"""
     pygame.init()
 
-    game = SnakeGame(400,400)
+    game = SnakeGame()
 
     speed =10
     clock = pygame.time.Clock()

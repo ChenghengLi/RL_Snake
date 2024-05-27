@@ -29,7 +29,7 @@ BLACK = (0, 0, 0)
 class SnakeGame:
     """Simple 2D snake game"""
 
-    def __init__(self, width=200, height=200):
+    def __init__(self, width=640, height=400):
         """Initialize the graphic blocks and a snake of size 3 heading right"""
         self.block_size = 20
         self.width = width
