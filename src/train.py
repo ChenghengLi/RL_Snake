@@ -78,6 +78,5 @@ def play_snake_1():
 
 
 if __name__ == '__main__':
-    benchmark(policy_naive)
-    benchmark(policy_manhattan)
+    play_snake_1()
 

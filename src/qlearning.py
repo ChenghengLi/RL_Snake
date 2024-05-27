@@ -1,5 +1,5 @@
 import random
-from game.snake import Direction, Point, SnakeGame
+from game.snake import SnakeGame
 from tqdm import tqdm
 
 
@@ -40,7 +40,6 @@ class QLearning:
             step = 0
             while not game_over and step < max_steps:
                 action = self.choose_action(state)
-                prev_state = self.game.head
                 eaten, score, game_over = self.game.play_step(action)
                 next_state = self.game.get_state()
                 reward = reward_function(state, next_state, action, self.game.get_food(), eaten, game_over)
