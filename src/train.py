@@ -1,5 +1,5 @@
 from game import SnakeGame
-from rewards import manhattan_reward, naive_reward
+from rewards import manhattan_reward, naive_reward, advanced_naive_reward, euclidean_reward
 from qlearning import QLearning
 from deepQL import DeepQLearning
 import random
@@ -8,10 +8,10 @@ from tqdm import tqdm
 
 
 policy_naive = QLearning(game).train(5000, 200, naive_reward)
-#print(policy)
-
+policy_advanced_naive = QLearning(game).train(5000, 200, advanced_naive_reward)
 policy_manhattan = QLearning(game).train(5000, 200, manhattan_reward)
-
+policy_euclidean = QLearning(game).train(5000, 200, euclidean_reward)
+#print(policy)
 
 
 
@@ -79,5 +79,7 @@ def play_snake_1():
 
 if __name__ == '__main__':
     benchmark(policy_naive)
+    benchmark(policy_advanced_naive)
     benchmark(policy_manhattan)
+    benchmark(policy_euclidean)
 
