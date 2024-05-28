@@ -50,8 +50,8 @@ class DeepQLearning:
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # Initialize networks
-        input_dim = 6  # 2 for coordinates and 4 for one-hot encoded direction
-        output_dim = 3  # left, right, forward
+        input_dim = 6  
+        output_dim = 3  
         self.policy_net = DQN(input_dim=input_dim, output_dim=output_dim).to(self.device)
         self.target_net = DQN(input_dim=input_dim, output_dim=output_dim).to(self.device)
         self.optimizer = optim.Adam(self.policy_net.parameters(), lr=alpha)
@@ -117,14 +117,14 @@ class DeepQLearning:
         scores = []
         for episode in tqdm(range(num_episodes)):
             self.game.reset()
-            state = self.game.getState()
+            state = self.game.get_state()
             game_over = False
             step = 0
             while not game_over and step < max_steps:
                 action = self.choose_action(state)
                 eaten, score, game_over = self.game.play_step(action)
-                next_state = self.game.getState()
-                reward = reward_function(state, next_state, self.game.getFood(), eaten, game_over)
+                next_state = self.game.get_state()
+                reward = reward_function(state, next_state, action, self.game.get_food(), eaten, game_over)
                 self.store_experience(state, action, reward, next_state, game_over)
                 self.train_step()
                 state = next_state

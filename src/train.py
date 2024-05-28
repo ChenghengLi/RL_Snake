@@ -7,10 +7,15 @@ game = SnakeGame(200, 200)
 from tqdm import tqdm
 
 
-policy_naive = QLearning(game).train(5000, 200, naive_reward)
-policy_advanced_naive = QLearning(game).train(5000, 200, advanced_naive_reward)
-policy_manhattan = QLearning(game).train(5000, 200, manhattan_reward)
-policy_euclidean = QLearning(game).train(5000, 200, euclidean_reward)
+
+#policy_naive = DeepQLearning(game).train(5000, 200, naive_reward)
+#policy_advanced_naive = QLearning(game).train(5000, 200, advanced_naive_reward)
+#policy_manhattan = QLearning(game).train(5000, 200, manhattan_reward)
+model = QLearning(game)
+model.load_model('manhattan_policy.txt')
+
+#policy_euclidean = model.train(5000, 200, manhattan_reward)
+#model.save_model('manhattan_policy.txt')
 #print(policy)
 
 
@@ -49,27 +54,30 @@ def play_snake_1():
     """Initialize and run the game loop"""
     pygame.init()
 
-    game = SnakeGame(640, 400)
+    game = SnakeGame(400, 400)
 
     speed = 20
     clock = pygame.time.Clock()
     stop = False
 
     # game loop
-    while True:
-        state = game.get_state()
-        action = max(policy_naive[state], key = lambda x:policy_naive[state][x])
+    for i in range(10):
+        game.reset()
+        game_over = False
+        while True:
+            state = game.get_state()
+            action = model.get_movement(state)
 
-        _, score, game_over = game.play_step(action)
-        game.pygame_draw()
-        clock.tick(speed)
+            _, score, game_over = game.play_step(action)
+            game.pygame_draw()
+            clock.tick(speed)
 
-        if game_over:
-            print('Game Over')
-            break
+            if game_over:
+                print('Game Over')
+                break
             
 
-    print('Final Score', score)
+        print('Final Score', score)
     pygame.quit()
 
 
@@ -78,8 +86,9 @@ def play_snake_1():
 
 
 if __name__ == '__main__':
-    benchmark(policy_naive)
-    benchmark(policy_advanced_naive)
-    benchmark(policy_manhattan)
-    benchmark(policy_euclidean)
+    play_snake_1()
+    #benchmark(policy_naive)
+    #benchmark(policy_advanced_naive)
+    #benchmark(policy_manhattan)
+    #benchmark(policy_euclidean)
 

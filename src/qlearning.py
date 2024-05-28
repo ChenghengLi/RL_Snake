@@ -1,7 +1,7 @@
 import random
 from game.snake import SnakeGame
 from tqdm import tqdm
-
+import json
 
 class QLearning:
     def __init__(self, game: SnakeGame, alpha=0.1, gamma=0.9, epsilon=0.1):
@@ -57,12 +57,48 @@ class QLearning:
     def get_movement(self, state):
         return max(self.q_table[state], key=lambda x: self.q_table[state][x])
 
-    def save_q_table(self, filename):
-        with open(filename, 'w') as f:
-            for key, value in self.q_table.items():
-                f.write(f'{key}:{value}\n')
+    def save_model(self, filename):
+        """
+        Save a dictionary to a file in JSON format.
 
-    def load_q_table(self, filename):
-        with open(filename, 'r') as f:
-            self.q_table = eval(f.read())
-        return self.q_table
+        :param filename: The name of the file to save the dictionary to.
+        """
+        dict_with_str_keys = self._tuple_key_to_str(self.q_table)
+        with open(filename, 'w') as file:
+            json.dump(dict_with_str_keys, file)
+
+    def load_model(self, filename):
+        """
+        Load a dictionary from a file in JSON format.
+
+        :param filename: The name of the file to load the dictionary from.
+        """
+        with open(filename, 'r') as file:
+            dict_with_str_keys = json.load(file)
+        self.q_table = self._str_key_to_tuple(dict_with_str_keys)
+
+
+    def _tuple_key_to_str(self, dictionary):
+        """
+        Convert tuple keys in a dictionary to strings.
+
+        :param dictionary: The dictionary with tuple keys.
+        :return: A new dictionary with string keys.
+        """
+        return {str(key): value for key, value in dictionary.items()}
+
+    def _str_key_to_tuple(self, dictionary):
+        """
+        Convert string keys in a dictionary back to tuples.
+
+        :param dictionary: The dictionary with string keys.
+        :return: A new dictionary with tuple keys.
+        """
+        def try_eval(key):
+            try:
+                return eval(key)
+            except:
+                return key
+
+        return {try_eval(key): value for key, value in dictionary.items()}
+        
