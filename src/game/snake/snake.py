@@ -163,6 +163,9 @@ class SnakeGame:
 
         return (x, y, str(self.direction))
     
+    def _manhhattan_distance(self, p1, p2):
+        return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
+    
     def get_state(self):
         """
         Returns:
@@ -211,7 +214,7 @@ class SnakeGame:
             f_r = self.food[0] < self.head[0]
             f_l = self.food[0] > self.head[0]
 
-        return (d_l, d_r, d_f, f_f, f_r, f_l)
+        return (d_f, d_r, d_l, f_f, f_r, f_l)
     
     def get_food(self):
         food = self.food

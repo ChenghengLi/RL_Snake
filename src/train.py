@@ -11,10 +11,10 @@ from tqdm import tqdm
 #policy_naive = DeepQLearning(game).train(5000, 200, naive_reward)
 #policy_advanced_naive = QLearning(game).train(5000, 200, advanced_naive_reward)
 #policy_manhattan = QLearning(game).train(5000, 200, manhattan_reward)
-model = QLearning(game)
-model.load_model('manhattan_policy.txt')
+model = DeepQLearning(game)
+#model.load_model('manhattan_policy.txt')
 
-#policy_euclidean = model.train(5000, 200, manhattan_reward)
+policy_euclidean = model.train(500, 200, manhattan_reward)
 #model.save_model('manhattan_policy.txt')
 #print(policy)
 

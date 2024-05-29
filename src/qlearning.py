@@ -42,7 +42,7 @@ class QLearning:
                 action = self.choose_action(state)
                 eaten, score, game_over = self.game.play_step(action)
                 next_state = self.game.get_state()
-                reward = reward_function(state, next_state, action, self.game.get_food(), eaten, game_over, score)
+                reward = reward_function(state, next_state, action, self.game.get_food(), eaten, game_over, score, step)
                 if step == max_steps - 1:
                     reward = -50
                 self.learn(state, action, reward, next_state)
@@ -52,9 +52,10 @@ class QLearning:
             if episode % 1000 == 0 and verbose:
                 print(f'Episode {episode} finished - Max Score: {max(scores)} - Last Score: {score} - Mean Score: {sum(scores)/len(scores)}')
         print(max(scores))
-        return self.q_table
 
     def get_movement(self, state):
+        if state not in self.q_table:
+            return random.choice(self.get_actions())
         return max(self.q_table[state], key=lambda x: self.q_table[state][x])
 
     def save_model(self, filename):

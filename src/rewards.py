@@ -1,6 +1,6 @@
 import math
 
-def naive_reward(state, next_state, action, food, eaten, game_over, score):
+def naive_reward(state, next_state, action, food, eaten, game_over, score, steps):
     if eaten:
         return 1
     elif game_over:
@@ -8,7 +8,7 @@ def naive_reward(state, next_state, action, food, eaten, game_over, score):
     return 0
 
 
-def advanced_naive_reward(state, next_state, action, food, eaten, game_over, score):
+def advanced_naive_reward(state, next_state, action, food, eaten, game_over, score, steps):
     if eaten:
         if action == "forward":
             return 2
@@ -30,7 +30,7 @@ def euclidean_distance(p1, p2):
     return math.sqrt((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)
 
 
-def manhattan_reward(state, next_state, action, food, eaten, game_over, score):
+def manhattan_reward(state, next_state, action, food, eaten, game_over, score, steps):
     dist_1 = manhattan_distance(state, food)
     dist_2 = manhattan_distance(next_state, food)
     
@@ -44,7 +44,7 @@ def manhattan_reward(state, next_state, action, food, eaten, game_over, score):
         return -5
 
 
-def euclidean_reward(state, next_state, action, food, eaten, game_over, score):
+def euclidean_reward(state, next_state, action, food, eaten, game_over, score, steps):
     # From https://dr.ntu.edu.sg/bitstream/10356/89882/1/ICA2018SnakeGame.pdf
     if game_over:
         return -1
