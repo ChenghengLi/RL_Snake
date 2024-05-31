@@ -35,13 +35,13 @@ def manhattan_reward(state, next_state, action, food, eaten, game_over, score, s
     dist_2 = manhattan_distance(next_state, food)
     
     if game_over:
-        return -100
+        return -5
     elif eaten:
-        return 30
+        return 5
     elif dist_2 < dist_1:
         return 1
     else:
-        return -5
+        return -1
 
 
 def euclidean_reward(state, next_state, action, food, eaten, game_over, score, steps):
