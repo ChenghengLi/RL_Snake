@@ -4,11 +4,19 @@ import pygame
 from game.snake import SnakeGame, player_to_snake_perspective
 
 
+from agents.QLearning import QLearning
+
+
+
+
 def play_snake():
     """Initialize and run the game loop"""
     pygame.init()
 
     game = SnakeGame()
+
+    model = QLearning(game)
+    model.load_model('policies/QL/best_advanced_naive_policy.txt')
 
     speed =10
     clock = pygame.time.Clock()
@@ -53,6 +61,8 @@ def play_snake():
         if game_over:
             clock.tick(0)
             game.reset()
+    
+    
 
     print('Final Score', score)
 
