@@ -33,6 +33,7 @@ def plot(y, x = None, title = None, xlabel = None, ylabel = None):
     fig.add_trace(go.Scatter(y=y,x=x, mode='lines', name='Scores'))
     fig.update_layout(
         title=title,
+        title_x=0.5,
         xaxis_title=xlabel,
         yaxis_title=ylabel
     )
