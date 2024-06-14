@@ -29,11 +29,15 @@ BLACK = (0, 0, 0)
 class SnakeGame:
     """Simple 2D snake game"""
 
+class SnakeGame:
+    """Simple 2D snake game"""
+
     def __init__(self, width=640, height=400):
         """Initialize the graphic blocks and a snake of size 3 heading right"""
         self.block_size = 20
         self.width = width
         self.height = height
+        self.margin = 30
 
         self.display = None
         self.font = None
@@ -50,6 +54,7 @@ class SnakeGame:
         self.score = 0
         self.food = None
         self._place_food()
+
     def reset(self):
         self.direction = Direction.RIGHT
 
@@ -223,38 +228,48 @@ class SnakeGame:
         return (x, y)
 
     def pygame_draw(self):
-        """Uses pygame to draw the game in the screen"""
+        """Uses pygame to draw the game on the screen"""
         if self.display is None:
             self.font = pygame.font.Font(pygame.font.get_default_font(), 25)
-
-            self.display = pygame.display.set_mode((self.width, self.height))
+            self.display = pygame.display.set_mode((self.width + 2 * self.margin, self.height + 2 * self.margin + 50))
             pygame.display.set_caption('Snake')
 
-        self.display.fill(BLACK)
+        self.display.fill((128, 128, 128))
 
+        # Draw chessboard pattern
+        for y in range(0, self.height, self.block_size):
+            for x in range(0, self.width, self.block_size):
+                rect = pygame.Rect(x + self.margin, y + self.margin, self.block_size, self.block_size)
+                color = WHITE if (x // self.block_size + y // self.block_size) % 2 == 0 else (192, 192, 192)
+                pygame.draw.rect(self.display, color, rect)
+
+        # Draw snake
         for body_point in self.snake:
             pygame.draw.rect(
                 self.display,
-                GREEN,
+                (153, 255, 255),
                 pygame.Rect(
-                    body_point.coordx,
-                    body_point.coordy,
+                    body_point.coordx + self.margin,
+                    body_point.coordy + self.margin,
                     self.block_size,
                     self.block_size))
 
+        # Draw food
         pygame.draw.rect(
             self.display,
             RED,
             pygame.Rect(
-                self.food.coordx,
-                self.food.coordy,
+                self.food.coordx + self.margin,
+                self.food.coordy + self.margin,
                 self.block_size,
                 self.block_size))
 
-        text = self.font.render("Score: " +
-                                str(self.score), True, (255, 255, 255))
-        self.display.blit(text, [0, 0])
+        # Draw score
+        text = self.font.render("Score: " + str(self.score), True, (255, 255, 255))
+        text_rect = text.get_rect(center=(self.width // 2 + self.margin, self.height + self.margin + 25))
+        self.display.blit(text, text_rect)
         pygame.display.flip()
+
 
     def _move(self, direction):
         """Adds a new head according to the given direction"""
