@@ -4,7 +4,7 @@ Welcome to the **Q-Learning Snake** project! This repository contains the implem
 
 ## Project Report
 
-For a detailed explanation of the project, including the methodology and results, please refer to the [project report](https://www.overleaf.com/read/tcdgnxcdsqnb#9f614f).
+For a detailed explanation of the project, including the methodology and results, please refer to the [project report](https://github.com/ChenghengLi/RL_Snake/blob/master/files/RL%20Snake%20Report.pdf).
 
 ## Table of Contents
 
