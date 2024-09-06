@@ -55,7 +55,7 @@ python play_game.py
 
 ## Contributing
 
-Contributions are welcome! Please fork the repository and submit a pull request for any improvements or bug fixes. Ensure that your code adheres to the existing coding standards and includes appropriate tests.
+Contributions are welcome! Please fork the repository and submit a pull request for any improvements or bug fixes. Ensure that your code adheres to the existing coding standards.
 
 ## License
 
