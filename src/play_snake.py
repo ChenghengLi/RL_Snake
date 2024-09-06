@@ -6,7 +6,7 @@ def agent_play(game, model):
     scores = []
     game_over = False
     step = 0
-    speed = 100
+    speed = 500
     clock = pygame.time.Clock()
     while not game_over:
 
@@ -24,7 +24,7 @@ def agent_play(game, model):
 
 def manual_play(game):
     score = 0
-    speed = 20
+    speed = 15
     clock = pygame.time.Clock()
     stop = False
 

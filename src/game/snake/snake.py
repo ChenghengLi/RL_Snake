@@ -26,8 +26,7 @@ GREEN = (0, 200, 50)
 BLACK = (0, 0, 0)
 
 
-class SnakeGame:
-    """Simple 2D snake game"""
+
 
 class SnakeGame:
     """Simple 2D snake game"""
@@ -247,7 +246,7 @@ class SnakeGame:
         for body_point in self.snake:
             pygame.draw.rect(
                 self.display,
-                (153, 255, 255),
+                (0, 206, 34),
                 pygame.Rect(
                     body_point.coordx + self.margin,
                     body_point.coordy + self.margin,
