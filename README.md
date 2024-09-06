@@ -44,7 +44,7 @@ pip install -r requirements.txt
 To run the Snake game with the Q-Learning AI, execute the following command inside the `src` directory:
 
 ```bash
-python main.py
+python play_game.py
 ```
 
 ## Features
